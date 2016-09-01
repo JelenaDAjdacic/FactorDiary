@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "139908629172",
+    "firebase_url": "https://factordiary.firebaseio.com",
+    "project_id": "factordiary",
+    "storage_bucket": "factordiary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139908629172:android:2bb4d9f58d50e23a",
+        "android_client_info": {
+          "package_name": "com.freelancewatermelon.factordiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139908629172-imev7g9rm1a1fb0trlfsuf0o58rqm232.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.freelancewatermelon.factordiary",
+            "certificate_hash": "FC178C761FA67C0CD55F5C31F7A638BF706A266B"
+          }
+        },
+        {
+          "client_id": "139908629172-55402d8u9n7anadjsg9idggdhivbkl1a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7XMMSU7m9UU7NTmz9TFxSuMJ2x1_kKyo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139908629172-55402d8u9n7anadjsg9idggdhivbkl1a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
