@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                 mUsername = ANONYMOUS;
                 startActivity(new Intent(this, SignInActivity.class));
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
