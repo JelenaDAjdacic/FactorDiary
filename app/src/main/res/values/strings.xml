@@ -9,4 +9,6 @@
     <string name="continue_with_google">Continue with Google</string>
     <string name="sign_out">Sign Out</string>
     <string name="facebook_app_id">914101742035617</string>
+    <string name="close">Close</string>
+    <string name="login">LogIn</string>
 </resources>
