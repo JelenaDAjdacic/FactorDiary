@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">FactorDiary</string>
-    <string name="sign_in">Sign In</string>
+
+    <!-- Sign in page strings-->
+    <string name="sign_in">Welcome to Factor Diary.</string>
     <string name="sign_up">Sign Up</string>
+    <string name="disclaimer_text">By siging up, I agree to FactorDiary terms of service and Privacy Policy.</string>
+    <string name="create_account">Create Account</string>
+    <string name="continue_with_google">Continue with Google</string>
     <string name="sign_out">Sign Out</string>
     <string name="facebook_app_id">914101742035617</string>
 </resources>

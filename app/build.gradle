@@ -29,6 +29,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.0'
 
+    compile 'net.steamcrafted:materialiconlib:1.1.1'
+
     // Google
     compile 'com.google.android.gms:play-services-auth:9.4.0'
 
@@ -43,7 +45,7 @@ dependencies {
     // Firebase UI
     compile 'com.firebaseui:firebase-ui-database:0.4.0'
 
-    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
+
 
 }
 apply plugin: 'com.google.gms.google-services'
