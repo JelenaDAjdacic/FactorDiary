@@ -1,20 +1,20 @@
 package com.freelancewatermelon.factordiary;
 
-
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.freelancewatermelon.factordiary.Common.Utils;
+import com.freelancewatermelon.factordiary.Fragment.SignInFragment;
+import com.freelancewatermelon.factordiary.Interface.SignInOnClickListener;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -30,15 +30,15 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
+import org.w3c.dom.Text;
+
 public class SignInActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+        GoogleApiClient.OnConnectionFailedListener, SignInOnClickListener {
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
 
-    private Button mGmailLoginButton;
     private Toolbar toolbar;
-
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -52,28 +52,19 @@ public class SignInActivity extends AppCompatActivity implements
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        // TODO make action bar pretty with exit button and LoginBtn
-        //getSupportActionBar().hide();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Show signIn fragment
+        SignInFragment signInFragment = SignInFragment.newInstance();
+        fragmentTransaction.replace(R.id.sign_in_fragment_container, signInFragment);
+        fragmentTransaction.commit();
+
         initToolBar();
 
         //Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
-
-
-        // Assign fields
-        mGmailLoginButton = (Button) findViewById(R.id.gmail_sign_in_button);
-
-        // Add button Left drawable (Google icon)
-        // The method returns a MaterialDrawable, but as it is private to the builder you'll have to store it as a regular Drawable ;)
-        Drawable myLeftBtnIcon = MaterialDrawableBuilder.with(this) // provide a context
-                .setIcon(MaterialDrawableBuilder.IconValue.GOOGLE) // provide an icon
-                .setColor(ContextCompat.getColor(this,R.color.colorBackground)) // set the icon color
-                .setToActionbarSize() // set the icon size
-                .build(); // Finally call build
-        mGmailLoginButton.setCompoundDrawablesWithIntrinsicBounds(myLeftBtnIcon, null, null, null );
-
-        // Set click listeners
-        mGmailLoginButton.setOnClickListener(this);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -89,18 +80,8 @@ public class SignInActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onClick(View view) {
-
-        switch (view.getId()) {
-            case R.id.gmail_sign_in_button:
-                signIn();
-                break;
-        }
-    }
-
-    @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        // TODO inform the user of connection failure
     }
 
     @Override
@@ -153,14 +134,44 @@ public class SignInActivity extends AppCompatActivity implements
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        toolbar.setNavigationIcon(Utils.getMaterialIconDrawable(SignInActivity.this, MaterialDrawableBuilder.IconValue.CLOSE,R.color.colorTextWhite));
+        toolbar.setNavigationIcon(Utils.getMaterialIconDrawable(SignInActivity.this, MaterialDrawableBuilder.IconValue.CLOSE, R.color.colorTextWhite));
         toolbar.setNavigationOnClickListener(
-        new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(SignInActivity.this, "clicking the toolbar!", Toast.LENGTH_SHORT).show();
-            }
-        }
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(SignInActivity.this, "clicking the toolbar!", Toast.LENGTH_SHORT).show();
+                        // TODO exit sign in activiy
+                    }
+                }
         );
+
+        TextView tv = (TextView) findViewById(R.id.tv_toolbar_txt);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO implement Log in screen
+                Toast.makeText(SignInActivity.this, "Log In!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onSignInWGoogleClick() {
+        signIn();
+    }
+
+    @Override
+    public void onCreateAccClick() {
+        //TODO
+    }
+
+    @Override
+    public void onLogInClick() {
+        //TODO
+    }
+
+    @Override
+    public void onChangePassClick() {
+        //TODO
     }
 }
