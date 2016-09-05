@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.freelancewatermelon.factordiary.Interface.SignInOnClickListener;
+import com.freelancewatermelon.factordiary.Interface.SignInCallbackInterface;
 import com.freelancewatermelon.factordiary.R;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -19,7 +19,7 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 public class SignInFragment extends Fragment {
     private Button mGmailLoginButton;
     private Button mCreateAcc;
-    private SignInOnClickListener mCallback;
+    private SignInCallbackInterface mCallback;
 
     public SignInFragment() {
         // Required empty public constructor
@@ -76,10 +76,10 @@ public class SignInFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mCallback = (SignInOnClickListener) context;
+            mCallback = (SignInCallbackInterface) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement SignInOnClickListener");
+                    + " must implement SignInCallbackInterface");
         }
     }
 

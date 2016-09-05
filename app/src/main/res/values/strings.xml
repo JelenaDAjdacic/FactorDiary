@@ -14,4 +14,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_2">Log In</string>
+    <string name="email_label">email address</string>
+    <string name="pass_label">password</string>
+    <string name="pass_toggle_label_show">Show</string>
+    <string name="pass_toggle_label_hide">Hide</string>
+    <string name="forgot_pass">Forgot password?</string>
 </resources>

@@ -13,8 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.freelancewatermelon.factordiary.Common.Utils;
+import com.freelancewatermelon.factordiary.Fragment.LoginFragment;
 import com.freelancewatermelon.factordiary.Fragment.SignInFragment;
-import com.freelancewatermelon.factordiary.Interface.SignInOnClickListener;
+import com.freelancewatermelon.factordiary.Interface.SignInCallbackInterface;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -30,10 +31,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
-import org.w3c.dom.Text;
-
 public class SignInActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener, SignInOnClickListener {
+        GoogleApiClient.OnConnectionFailedListener, SignInCallbackInterface {
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -53,15 +52,9 @@ public class SignInActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        // Show signIn fragment
-        SignInFragment signInFragment = SignInFragment.newInstance();
-        fragmentTransaction.replace(R.id.sign_in_fragment_container, signInFragment);
-        fragmentTransaction.commit();
-
-        initToolBar();
+        showSignInFragment();
 
         //Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -128,9 +121,7 @@ public class SignInActivity extends AppCompatActivity implements
                 });
     }
 
-    public void initToolBar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.setTitle(R.string.toolbarTitle);
+    public void signInToolbar() {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
@@ -139,18 +130,17 @@ public class SignInActivity extends AppCompatActivity implements
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(SignInActivity.this, "clicking the toolbar!", Toast.LENGTH_SHORT).show();
-                        // TODO exit sign in activiy
+                        finish();
                     }
                 }
         );
 
         TextView tv = (TextView) findViewById(R.id.tv_toolbar_txt);
+        tv.setText(R.string.login);
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO implement Log in screen
-                Toast.makeText(SignInActivity.this, "Log In!", Toast.LENGTH_SHORT).show();
+                showLogInFragment();
             }
         });
     }
@@ -168,10 +158,64 @@ public class SignInActivity extends AppCompatActivity implements
     @Override
     public void onLogInClick() {
         //TODO
+        Toast.makeText(this, "Go Login!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onChangePassClick() {
         //TODO
     }
+
+    private void loginToolbar() {
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(Utils.getMaterialIconDrawable(SignInActivity.this, MaterialDrawableBuilder.IconValue.ARROW_LEFT, R.color.colorTextWhite));
+        toolbar.setNavigationOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(SignInActivity.this, "clicking the toolbar!", Toast.LENGTH_SHORT).show();
+                        showSignInFragment();
+                    }
+                }
+        );
+
+        TextView tv = (TextView) findViewById(R.id.tv_toolbar_txt);
+        tv.setText(R.string.forgot_pass);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO implement forgot password
+                Toast.makeText(SignInActivity.this, "forgot password!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showSignInFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Show signIn fragment
+        SignInFragment signInFragment = SignInFragment.newInstance();
+        fragmentTransaction.replace(R.id.sign_in_fragment_container, signInFragment);
+        fragmentTransaction.commit();
+
+        signInToolbar();
+    }
+
+    private void showLogInFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Show Log in fragment
+        LoginFragment logInFragment = LoginFragment.newInstance();
+        fragmentTransaction.replace(R.id.sign_in_fragment_container, logInFragment);
+        fragmentTransaction.commit();
+
+        // Show login toolbar
+        loginToolbar();
+    }
+
+
 }
