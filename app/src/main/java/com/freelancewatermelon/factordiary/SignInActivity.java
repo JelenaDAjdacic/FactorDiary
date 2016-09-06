@@ -3,17 +3,14 @@ package com.freelancewatermelon.factordiary;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.freelancewatermelon.factordiary.Common.Utils;
-import com.freelancewatermelon.factordiary.Fragment.LoginFragment;
 import com.freelancewatermelon.factordiary.Fragment.SignInFragment;
 import com.freelancewatermelon.factordiary.Interface.SignInCallbackInterface;
 import com.google.android.gms.auth.api.Auth;
@@ -29,8 +26,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-
 public class SignInActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, SignInCallbackInterface {
 
@@ -38,9 +33,9 @@ public class SignInActivity extends AppCompatActivity implements
     private static final int RC_SIGN_IN = 9001;
 
     private Toolbar toolbar;
+    private FloatingActionButton fab;
 
     private GoogleApiClient mGoogleApiClient;
-
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -53,6 +48,7 @@ public class SignInActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_sign_in);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         showSignInFragment();
 
@@ -69,7 +65,7 @@ public class SignInActivity extends AppCompatActivity implements
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -121,29 +117,6 @@ public class SignInActivity extends AppCompatActivity implements
                 });
     }
 
-    public void signInToolbar() {
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-
-        toolbar.setNavigationIcon(Utils.getMaterialIconDrawable(SignInActivity.this, MaterialDrawableBuilder.IconValue.CLOSE, R.color.colorTextWhite));
-        toolbar.setNavigationOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                }
-        );
-
-        TextView tv = (TextView) findViewById(R.id.tv_toolbar_txt);
-        tv.setText(R.string.login);
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showLogInFragment();
-            }
-        });
-    }
 
     @Override
     public void onSignInWGoogleClick() {
@@ -153,6 +126,7 @@ public class SignInActivity extends AppCompatActivity implements
     @Override
     public void onCreateAccClick() {
         //TODO
+        Toast.makeText(this, "CREATE ACCOUNT!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -164,32 +138,7 @@ public class SignInActivity extends AppCompatActivity implements
     @Override
     public void onChangePassClick() {
         //TODO
-    }
-
-    private void loginToolbar() {
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-
-        toolbar.setNavigationIcon(Utils.getMaterialIconDrawable(SignInActivity.this, MaterialDrawableBuilder.IconValue.ARROW_LEFT, R.color.colorTextWhite));
-        toolbar.setNavigationOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(SignInActivity.this, "clicking the toolbar!", Toast.LENGTH_SHORT).show();
-                        showSignInFragment();
-                    }
-                }
-        );
-
-        TextView tv = (TextView) findViewById(R.id.tv_toolbar_txt);
-        tv.setText(R.string.forgot_pass);
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO implement forgot password
-                Toast.makeText(SignInActivity.this, "forgot password!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        Toast.makeText(this, "Change Pass!", Toast.LENGTH_SHORT).show();
     }
 
     private void showSignInFragment() {
@@ -197,25 +146,9 @@ public class SignInActivity extends AppCompatActivity implements
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         // Show signIn fragment
-        SignInFragment signInFragment = SignInFragment.newInstance();
+        SignInFragment signInFragment = SignInFragment.newInstance(toolbar, fab);
         fragmentTransaction.replace(R.id.sign_in_fragment_container, signInFragment);
         fragmentTransaction.commit();
-
-        signInToolbar();
     }
-
-    private void showLogInFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        // Show Log in fragment
-        LoginFragment logInFragment = LoginFragment.newInstance();
-        fragmentTransaction.replace(R.id.sign_in_fragment_container, logInFragment);
-        fragmentTransaction.commit();
-
-        // Show login toolbar
-        loginToolbar();
-    }
-
 
 }

@@ -3,14 +3,20 @@ package com.freelancewatermelon.factordiary.Fragment;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.freelancewatermelon.factordiary.Common.Utils;
 import com.freelancewatermelon.factordiary.Interface.SignInCallbackInterface;
 import com.freelancewatermelon.factordiary.R;
 
@@ -20,15 +26,19 @@ public class SignInFragment extends Fragment {
     private Button mGmailLoginButton;
     private Button mCreateAcc;
     private SignInCallbackInterface mCallback;
+    private Toolbar toolbar;
+    private FloatingActionButton fab;
 
     public SignInFragment() {
         // Required empty public constructor
     }
 
-    public static SignInFragment newInstance() {
+    public static SignInFragment newInstance(Toolbar toolbar, FloatingActionButton fab) {
         SignInFragment f = new SignInFragment();
+        f.toolbar = toolbar;
+        f.fab = fab;
         // TODO do we need to pass some args here?
-        Bundle args = new Bundle();
+        //Bundle args = new Bundle();
         return f;
     }
 
@@ -63,9 +73,18 @@ public class SignInFragment extends Fragment {
         mCreateAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "CreateAcc!", Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                // Show signIn fragment
+                AccNameFragment accNameFragment = AccNameFragment.newInstance(toolbar, fab);
+                fragmentTransaction.replace(R.id.sign_in_fragment_container, accNameFragment);
+                fragmentTransaction.commit();
             }
         });
+
+        signInToolbar();
+        fab.hide();
         return view;
     }
 
@@ -83,4 +102,34 @@ public class SignInFragment extends Fragment {
         }
     }
 
+    public void signInToolbar() {
+        toolbar.setTitle("");
+        //setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(Utils.getMaterialIconDrawable(getActivity(), MaterialDrawableBuilder.IconValue.CLOSE, R.color.colorTextWhite));
+        toolbar.setNavigationOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getActivity().finish();
+                    }
+                }
+        );
+
+        TextView tv = (TextView) toolbar.findViewById(R.id.tv_toolbar_txt);
+        tv.setText(R.string.login);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                // Show Log in fragment
+                LoginFragment logInFragment = LoginFragment.newInstance(toolbar, fab);
+                fragmentTransaction.replace(R.id.sign_in_fragment_container, logInFragment);
+                fragmentTransaction.commit();
+
+            }
+        });
+    }
 }

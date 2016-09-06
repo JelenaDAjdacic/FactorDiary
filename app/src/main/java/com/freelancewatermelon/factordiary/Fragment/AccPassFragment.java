@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.freelancewatermelon.factordiary.Common.Utils;
 import com.freelancewatermelon.factordiary.Interface.SignInCallbackInterface;
@@ -23,19 +22,20 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends Fragment {
+public class AccPassFragment extends Fragment {
 
     private TextView tv_passToggle;
     private FloatingActionButton fab;
     private Toolbar toolbar;
+
     private SignInCallbackInterface mCallback;
 
-    public LoginFragment() {
+    public AccPassFragment() {
         // Required empty public constructor
     }
 
-    public static LoginFragment newInstance(Toolbar toolbar, FloatingActionButton fab) {
-        LoginFragment f = new LoginFragment();
+    public static AccPassFragment newInstance(Toolbar toolbar, FloatingActionButton fab) {
+        AccPassFragment f = new AccPassFragment();
         // TODO do we need to pass some args here?
         f.fab = fab;
         f.toolbar = toolbar;
@@ -46,8 +46,9 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_acc_pass, container, false);
         tv_passToggle = (TextView) view.findViewById(R.id.tv_pass_toggle_label);
         tv_passToggle.setTag(0);
         tv_passToggle.setOnClickListener(new View.OnClickListener() {
@@ -64,18 +65,19 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        // Inflate the layout for this fragment
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCallback.onLogInClick();
+                mCallback.onCreateAccClick();
             }
         });
 
-        loginToolbar();
+        accPassToolbar();
         fab.setImageDrawable(Utils.getMaterialIconDrawable(getActivity(), MaterialDrawableBuilder.IconValue.ARROW_RIGHT, R.color.colorTextWhite));
         fab.show();
+        // Inflate the layout for this fragment
         return view;
-
     }
 
     @Override
@@ -92,7 +94,7 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    private void loginToolbar() {
+    private void accPassToolbar() {
         toolbar.setTitle("");
         //setSupportActionBar(toolbar);
 
@@ -106,22 +108,14 @@ public class LoginFragment extends Fragment {
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                         // Show signIn fragment
-                        SignInFragment signInFragment = SignInFragment.newInstance(toolbar, fab);
-                        fragmentTransaction.replace(R.id.sign_in_fragment_container, signInFragment);
+                        AccEmailFragment accEmailFragment = AccEmailFragment.newInstance(toolbar, fab);
+                        fragmentTransaction.replace(R.id.sign_in_fragment_container, accEmailFragment);
                         fragmentTransaction.commit();
                     }
                 }
         );
 
         TextView tv = (TextView) toolbar.findViewById(R.id.tv_toolbar_txt);
-        tv.setText(R.string.forgot_pass);
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO implement forgot password
-                Toast.makeText(getActivity(), "forgot password!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        tv.setText("");
     }
-
 }

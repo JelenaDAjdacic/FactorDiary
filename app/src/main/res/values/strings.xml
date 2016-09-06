@@ -20,4 +20,11 @@
     <string name="pass_toggle_label_show">Show</string>
     <string name="pass_toggle_label_hide">Hide</string>
     <string name="forgot_pass">Forgot password?</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="acc_enter_name">What\'s your name?</string>
+    <string name="acc_name_label">First name</string>
+    <string name="acc_last_name_label">Last name</string>
+    <string name="acc_enter_email">And, your email?</string>
+    <string name="acc_enter_pass">Create a password</string>
+    <string name="acc_enter_pass_desc">Your password must include at least one symbol and be 8 or more characters long.</string>
 </resources>
