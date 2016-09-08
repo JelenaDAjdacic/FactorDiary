@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.freelancewatermelon.factordiary.Common.Utils;
@@ -27,6 +28,13 @@ public class AccPassFragment extends Fragment {
     private TextView tv_passToggle;
     private FloatingActionButton fab;
     private Toolbar toolbar;
+    private EditText ed_pass;
+    private String name;
+    private String last_name;
+    private String email;
+    private String pass;
+    private Bundle args;
+
 
     private SignInCallbackInterface mCallback;
 
@@ -34,12 +42,12 @@ public class AccPassFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static AccPassFragment newInstance(Toolbar toolbar, FloatingActionButton fab) {
+    public static AccPassFragment newInstance(Toolbar toolbar, FloatingActionButton fab, Bundle bundle) {
         AccPassFragment f = new AccPassFragment();
         // TODO do we need to pass some args here?
         f.fab = fab;
         f.toolbar = toolbar;
-        //Bundle args = new Bundle();
+        f.setArguments(bundle);
         return f;
     }
 
@@ -65,11 +73,20 @@ public class AccPassFragment extends Fragment {
             }
         });
 
+        ed_pass = (EditText) view.findViewById(R.id.et_password);
+
+        args = getArguments();
+        name = args.getString("name");
+        last_name = args.getString("last_name");
+        email = args.getString("email");
+
         // Inflate the layout for this fragment
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCallback.onCreateAccClick();
+                // TODO validate password
+                pass = ed_pass.getText().toString();
+                mCallback.onCreateAccClick(name, last_name, email, pass);
             }
         });
 
@@ -108,7 +125,7 @@ public class AccPassFragment extends Fragment {
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                         // Show signIn fragment
-                        AccEmailFragment accEmailFragment = AccEmailFragment.newInstance(toolbar, fab);
+                        AccEmailFragment accEmailFragment = AccEmailFragment.newInstance(toolbar, fab, args);
                         fragmentTransaction.replace(R.id.sign_in_fragment_container, accEmailFragment);
                         fragmentTransaction.commit();
                     }

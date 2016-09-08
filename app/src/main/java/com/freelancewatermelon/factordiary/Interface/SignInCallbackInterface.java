@@ -1,13 +1,14 @@
 package com.freelancewatermelon.factordiary.Interface;
 
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-
 /**
  * Created by 1 on 9/5/2016.
  */
 public interface SignInCallbackInterface {
     void onSignInWGoogleClick();
-    void onCreateAccClick();
-    void onLogInClick();
+
+    void onCreateAccClick(String name, String last_name, String email, String pass);
+
+    void onLogInClick(String email, String pass);
+
     void onChangePassClick();
 }

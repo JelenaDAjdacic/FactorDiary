@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,10 @@ public class LoginFragment extends Fragment {
     private TextView tv_passToggle;
     private FloatingActionButton fab;
     private Toolbar toolbar;
+    private String email;
+    private String pass;
+    private EditText ed_email;
+    private EditText ed_pass;
     private SignInCallbackInterface mCallback;
 
     public LoginFragment() {
@@ -64,10 +69,16 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        ed_email = (EditText) view.findViewById(R.id.et_email);
+        ed_pass = (EditText) view.findViewById(R.id.et_password);
+
+        email = ed_email.getText().toString();
+        pass = ed_pass.getText().toString();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCallback.onLogInClick();
+                mCallback.onLogInClick(email, pass);
             }
         });
 

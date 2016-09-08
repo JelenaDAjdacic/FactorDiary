@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.freelancewatermelon.factordiary.Common.Utils;
@@ -24,6 +25,11 @@ public class AccNameFragment extends Fragment {
 
     private FloatingActionButton fab;
     private Toolbar toolbar;
+    private String name;
+    private String last_name;
+    private EditText ed_name;
+    private EditText ed_last_name;
+    private Bundle args;
 
     public AccNameFragment() {
         // Required empty public constructor
@@ -41,15 +47,25 @@ public class AccNameFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_acc_name, container, false);
+        ed_name = (EditText) view.findViewById(R.id.et_name);
+        ed_last_name = (EditText) view.findViewById(R.id.et_last_name);
+
+        name = ed_name.getText().toString();
+        last_name = ed_last_name.getText().toString();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO validate fields
+                args = new Bundle();
+                args.putString("name", name);
+                args.putString("last_name", last_name);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 // Show signIn fragment
-                AccEmailFragment accEmailFragment = AccEmailFragment.newInstance(toolbar, fab);
+                AccEmailFragment accEmailFragment = AccEmailFragment.newInstance(toolbar, fab, args);
                 fragmentTransaction.replace(R.id.sign_in_fragment_container, accEmailFragment);
                 fragmentTransaction.commit();
             }
@@ -59,7 +75,7 @@ public class AccNameFragment extends Fragment {
         fab.setImageDrawable(Utils.getMaterialIconDrawable(getActivity(), MaterialDrawableBuilder.IconValue.ARROW_RIGHT, R.color.colorTextWhite));
         fab.show();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_acc_name, container, false);
+        return view;
     }
 
     private void accNameToolbar() {

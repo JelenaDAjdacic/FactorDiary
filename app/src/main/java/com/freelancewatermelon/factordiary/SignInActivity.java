@@ -117,20 +117,19 @@ public class SignInActivity extends AppCompatActivity implements
                 });
     }
 
-
     @Override
     public void onSignInWGoogleClick() {
         signIn();
     }
 
     @Override
-    public void onCreateAccClick() {
+    public void onCreateAccClick(String name, String last_name, String email, String pass) {
         //TODO
         Toast.makeText(this, "CREATE ACCOUNT!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onLogInClick() {
+    public void onLogInClick(String email, String pass) {
         //TODO
         Toast.makeText(this, "Go Login!", Toast.LENGTH_SHORT).show();
     }
