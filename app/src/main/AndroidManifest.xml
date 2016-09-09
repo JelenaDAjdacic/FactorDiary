@@ -20,6 +20,7 @@
         <activity
             android:name=".SignInActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".SubUsersActivity"></activity>
     </application>
 
 </manifest>

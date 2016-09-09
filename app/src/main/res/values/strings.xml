@@ -27,4 +27,6 @@
     <string name="acc_enter_email">And, your email?</string>
     <string name="acc_enter_pass">Create a password</string>
     <string name="acc_enter_pass_desc">Your password must include at least one symbol and be 8 or more characters long.</string>
+    <string name="create_sub_user_title">Create diary</string>
+    <string name="create_sub_user_description">Click on plus sign to create a new diary for yourself or members of your family (e.g. children).</string>
 </resources>
