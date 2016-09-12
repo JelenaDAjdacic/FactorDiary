@@ -10,5 +10,5 @@ public interface SignInCallbackInterface {
 
     void onLogInClick(String email, String pass);
 
-    void onChangePassClick();
+    void onChangePassClick(String email);
 }

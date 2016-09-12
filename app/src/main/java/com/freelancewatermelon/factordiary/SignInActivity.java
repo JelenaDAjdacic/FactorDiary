@@ -120,6 +120,7 @@ public class SignInActivity extends AppCompatActivity implements
     }
 
     private void signIn() {
+        // TODO start spinner
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -132,7 +133,7 @@ public class SignInActivity extends AppCompatActivity implements
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
+                        // TODO Stop spinner
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -141,6 +142,7 @@ public class SignInActivity extends AppCompatActivity implements
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            // TODO start SubUsersActivity if no sub users present, or there are more than one
                             startActivity(new Intent(SignInActivity.this, MainActivity.class));
                             finish();
                         }
@@ -183,8 +185,9 @@ public class SignInActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onChangePassClick() {
-        //TODO
+    public void onChangePassClick(String email) {
+        //TODO Reset password and switch to LoginFragment
+        //TODO Show SnackBar informing user that password reset was successful/fail
         Toast.makeText(this, "Change Pass!", Toast.LENGTH_SHORT).show();
     }
 
