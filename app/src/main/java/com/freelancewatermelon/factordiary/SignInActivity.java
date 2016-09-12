@@ -78,7 +78,7 @@ public class SignInActivity extends AppCompatActivity implements
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
+
             }
         };
 
@@ -173,7 +173,6 @@ public class SignInActivity extends AppCompatActivity implements
                                     Toast.LENGTH_SHORT).show();
                         }
 
-
                     }
                 });
     }
@@ -182,6 +181,28 @@ public class SignInActivity extends AppCompatActivity implements
     public void onLogInClick(String email, String pass) {
         //TODO
         Toast.makeText(this, "Go Login!", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, email + " " + pass);
+        mFirebaseAuth.signInWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithEmail:failed", task.getException());
+                            Toast.makeText(SignInActivity.this, "FAILED",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                            finish();
+                        }
+
+                    }
+                });
+
     }
 
     @Override
