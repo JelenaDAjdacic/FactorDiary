@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.freelancewatermelon.factordiary.Fragment.LoginFragment;
 import com.freelancewatermelon.factordiary.Fragment.SignInFragment;
 import com.freelancewatermelon.factordiary.Interface.SignInCallbackInterface;
 import com.google.android.gms.auth.api.Auth;
@@ -171,10 +172,13 @@ public class SignInActivity extends AppCompatActivity implements
                         if (!task.isSuccessful()) {
                             Toast.makeText(SignInActivity.this, "FAILED",
                                     Toast.LENGTH_SHORT).show();
+                        } else {
+                            showLogInFragment();
                         }
 
                     }
                 });
+
     }
 
     @Override
@@ -206,10 +210,20 @@ public class SignInActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onChangePassClick(String email) {
+    public void onForgotPassClick(String email) {
         //TODO Reset password and switch to LoginFragment
         //TODO Show SnackBar informing user that password reset was successful/fail
         Toast.makeText(this, "Change Pass!", Toast.LENGTH_SHORT).show();
+        mFirebaseAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Email sent.");
+                        }
+                    }
+                });
+        showLogInFragment();
     }
 
     private void showSignInFragment() {
@@ -219,6 +233,16 @@ public class SignInActivity extends AppCompatActivity implements
         // Show signIn fragment
         SignInFragment signInFragment = SignInFragment.newInstance(toolbar, fab);
         fragmentTransaction.replace(R.id.sign_in_fragment_container, signInFragment);
+        fragmentTransaction.commit();
+    }
+
+    private void showLogInFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Show Log in fragment
+        LoginFragment logInFragment = LoginFragment.newInstance(toolbar, fab);
+        fragmentTransaction.replace(R.id.sign_in_fragment_container, logInFragment);
         fragmentTransaction.commit();
     }
 

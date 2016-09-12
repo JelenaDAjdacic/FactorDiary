@@ -61,7 +61,7 @@ public class ForgotPassFragment extends Fragment {
             public void onClick(View view) {
                 // TODO field validation
                 email = ed_email.getText().toString();
-                mCallback.onChangePassClick(email);
+                mCallback.onForgotPassClick(email);
             }
         });
 
