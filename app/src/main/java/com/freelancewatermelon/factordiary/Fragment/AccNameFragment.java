@@ -51,13 +51,12 @@ public class AccNameFragment extends Fragment {
         ed_name = (EditText) view.findViewById(R.id.et_name);
         ed_last_name = (EditText) view.findViewById(R.id.et_last_name);
 
-        name = ed_name.getText().toString();
-        last_name = ed_last_name.getText().toString();
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO validate fields
+                name = ed_name.getText().toString();
+                last_name = ed_last_name.getText().toString();
                 args = new Bundle();
                 args.putString("name", name);
                 args.putString("last_name", last_name);

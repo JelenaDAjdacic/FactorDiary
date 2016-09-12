@@ -72,12 +72,11 @@ public class LoginFragment extends Fragment {
         ed_email = (EditText) view.findViewById(R.id.et_email);
         ed_pass = (EditText) view.findViewById(R.id.et_password);
 
-        email = ed_email.getText().toString();
-        pass = ed_pass.getText().toString();
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                email = ed_email.getText().toString();
+                pass = ed_pass.getText().toString();
                 mCallback.onLogInClick(email, pass);
             }
         });
