@@ -8,8 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.freelancewatermelon.factordiary.Fragment.SubUsersEmptyFragment;
+import com.freelancewatermelon.factordiary.Interface.SubUsersCallbackInterface;
 
-public class SubUsersActivity extends AppCompatActivity {
+public class SubUsersActivity extends AppCompatActivity implements SubUsersCallbackInterface{
     private Toolbar toolbar;
     private FloatingActionButton fab;
 
@@ -19,6 +20,9 @@ public class SubUsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sub_users);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        // TODO pull subUsers
+        // If subUsers == 0 show empty fragment
 
         // TODO show appropriate fragment
         showSubUsersEmptyFragment();
@@ -32,5 +36,15 @@ public class SubUsersActivity extends AppCompatActivity {
         SubUsersEmptyFragment subUsersEmptyFragment = SubUsersEmptyFragment.newInstance(toolbar, fab);
         fragmentTransaction.replace(R.id.sign_in_fragment_container, subUsersEmptyFragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void addSubUser(String name, String last_name) {
+        // TODO
+    }
+
+    @Override
+    public void deleteSubuser() {
+        // TODO
     }
 }

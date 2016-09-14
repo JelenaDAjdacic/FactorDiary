@@ -140,12 +140,9 @@ public class SignInActivity extends AppCompatActivity implements
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(SignInActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            loginFail();
                         } else {
-                            // TODO start SubUsersActivity if no sub users present, or there are more than one
-                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
-                            finish();
+                            loginSuccess();
                         }
                     }
                 });
@@ -197,11 +194,9 @@ public class SignInActivity extends AppCompatActivity implements
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(SignInActivity.this, "FAILED",
-                                    Toast.LENGTH_SHORT).show();
+                            loginFail();
                         } else {
-                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
-                            finish();
+                            loginSuccess();
                         }
 
                     }
@@ -244,6 +239,16 @@ public class SignInActivity extends AppCompatActivity implements
         LoginFragment logInFragment = LoginFragment.newInstance(toolbar, fab);
         fragmentTransaction.replace(R.id.sign_in_fragment_container, logInFragment);
         fragmentTransaction.commit();
+    }
+
+    private void loginSuccess() {
+        // TODO start SubUsersActivity if no sub users present, or there are more than one
+        startActivity(new Intent(SignInActivity.this, SubUsersActivity.class));
+        finish();
+    }
+
+    private void loginFail() {
+        // TODO inform user that login failed
     }
 
 }
