@@ -75,6 +75,7 @@ public class SignInActivity extends AppCompatActivity implements
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    loginSuccess(user.getUid());
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -142,7 +143,7 @@ public class SignInActivity extends AppCompatActivity implements
                             Log.w(TAG, "signInWithCredential", task.getException());
                             loginFail();
                         } else {
-                            loginSuccess();
+
                         }
                     }
                 });
@@ -196,7 +197,7 @@ public class SignInActivity extends AppCompatActivity implements
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             loginFail();
                         } else {
-                            loginSuccess();
+
                         }
 
                     }
@@ -241,9 +242,11 @@ public class SignInActivity extends AppCompatActivity implements
         fragmentTransaction.commit();
     }
 
-    private void loginSuccess() {
-        // TODO start SubUsersActivity if no sub users present, or there are more than one
-        startActivity(new Intent(SignInActivity.this, SubUsersActivity.class));
+    private void loginSuccess(String uid) {
+        // TODO start SubUsersActivity
+        Intent intent = new Intent(SignInActivity.this, SubUsersActivity.class);
+        intent.putExtra("uid", uid);
+        startActivity(intent);
         finish();
     }
 
