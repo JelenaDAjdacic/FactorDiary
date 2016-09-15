@@ -26,6 +26,9 @@ public class SubUsersActivity extends AppCompatActivity implements SubUsersCallb
 
         // TODO show appropriate fragment
         showSubUsersEmptyFragment();
+
+        setSupportActionBar(toolbar);
+
     }
 
     private void showSubUsersEmptyFragment() {
