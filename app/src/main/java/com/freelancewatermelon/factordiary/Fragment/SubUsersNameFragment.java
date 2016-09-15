@@ -66,8 +66,6 @@ public class SubUsersNameFragment extends Fragment {
                 args.putString("last_name", last_name);
 
                 mCallback.addSubUser(name, last_name);
-                // TODO launch right fragment
-
             }
         });
 
@@ -88,10 +86,13 @@ public class SubUsersNameFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //showSignInFragment();
-                        // TODO launch right fragment
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-
+                        // Show sub users empty fragment
+                        SubUsersEmptyFragment subUsersEmptyFragment = SubUsersEmptyFragment.newInstance(toolbar, fab);
+                        fragmentTransaction.replace(R.id.sign_in_fragment_container, subUsersEmptyFragment);
+                        fragmentTransaction.commit();
                     }
                 }
         );

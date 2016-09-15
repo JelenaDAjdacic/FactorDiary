@@ -6,11 +6,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.freelancewatermelon.factordiary.Fragment.SubUsersEmptyFragment;
 import com.freelancewatermelon.factordiary.Interface.SubUsersCallbackInterface;
 
-public class SubUsersActivity extends AppCompatActivity implements SubUsersCallbackInterface{
+public class SubUsersActivity extends AppCompatActivity implements SubUsersCallbackInterface {
     private Toolbar toolbar;
     private FloatingActionButton fab;
 
@@ -43,7 +44,9 @@ public class SubUsersActivity extends AppCompatActivity implements SubUsersCallb
 
     @Override
     public void addSubUser(String name, String last_name) {
-        // TODO
+        // TODO add user
+        Toast.makeText(this, "User Add...", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

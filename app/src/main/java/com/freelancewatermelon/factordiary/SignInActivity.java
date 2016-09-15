@@ -243,9 +243,7 @@ public class SignInActivity extends AppCompatActivity implements
     }
 
     private void loginSuccess(String uid) {
-        // TODO start SubUsersActivity
         Intent intent = new Intent(SignInActivity.this, SubUsersActivity.class);
-        intent.putExtra("uid", uid);
         startActivity(intent);
         finish();
     }
