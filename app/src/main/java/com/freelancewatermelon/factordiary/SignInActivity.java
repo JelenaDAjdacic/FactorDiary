@@ -1,5 +1,6 @@
 package com.freelancewatermelon.factordiary;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.freelancewatermelon.factordiary.Dialogs.CustomProgressDialog;
 import com.freelancewatermelon.factordiary.Fragment.LoginFragment;
 import com.freelancewatermelon.factordiary.Fragment.SignInFragment;
 import com.freelancewatermelon.factordiary.Interface.SignInCallbackInterface;
@@ -42,6 +44,8 @@ public class SignInActivity extends AppCompatActivity implements
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -85,6 +89,7 @@ public class SignInActivity extends AppCompatActivity implements
         };
 
         setSupportActionBar(toolbar);
+        progressDialog = CustomProgressDialog.newInstance(this);
     }
 
     @Override
@@ -122,7 +127,6 @@ public class SignInActivity extends AppCompatActivity implements
     }
 
     private void signIn() {
-        // TODO start spinner
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -130,12 +134,13 @@ public class SignInActivity extends AppCompatActivity implements
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGooogle:" + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        progressDialog.show();
         mFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                        // TODO Stop spinner
+                        progressDialog.hide();
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
