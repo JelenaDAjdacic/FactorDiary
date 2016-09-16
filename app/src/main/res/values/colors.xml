@@ -8,4 +8,12 @@
     <color name="colorBackgroundLight">#3ec8c6</color>
     <color name="colorTextWhite">#FFFFFF</color>
     <color name="yellow">#f7e815</color>
+
+    <color name="light_blue_500">#03A9F4</color>
+    <color name="cyan_500">#00BCD4</color>
+    <color name="teal_500">#009688</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="light_green_500">#8BC34A</color>
+
+    <color name="pressed">#33000000</color>
 </resources>

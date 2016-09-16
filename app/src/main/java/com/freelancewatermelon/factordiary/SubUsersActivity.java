@@ -9,14 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.freelancewatermelon.factordiary.Fragment.SubUsersEmptyFragment;
+import com.freelancewatermelon.factordiary.Fragment.SubUsersFragment;
 import com.freelancewatermelon.factordiary.Interface.SubUsersCallbackInterface;
 import com.freelancewatermelon.factordiary.Model.SubUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SubUsersActivity extends AppCompatActivity implements SubUsersCallbackInterface {
     private Toolbar toolbar;
@@ -45,7 +43,8 @@ public class SubUsersActivity extends AppCompatActivity implements SubUsersCallb
         // If subUsers == 0 show empty fragment
 
         // TODO show appropriate fragment
-        showSubUsersEmptyFragment();
+        //showSubUsersEmptyFragment();
+        showSubUsersFragment();
 
         setSupportActionBar(toolbar);
 
@@ -58,6 +57,16 @@ public class SubUsersActivity extends AppCompatActivity implements SubUsersCallb
         // Show sub users empty fragment
         SubUsersEmptyFragment subUsersEmptyFragment = SubUsersEmptyFragment.newInstance(toolbar, fab);
         fragmentTransaction.replace(R.id.sign_in_fragment_container, subUsersEmptyFragment);
+        fragmentTransaction.commit();
+    }
+
+    private void showSubUsersFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Show sub users fragment
+        SubUsersFragment subUsersFragment = SubUsersFragment.newInstance(toolbar, fab);
+        fragmentTransaction.replace(R.id.sign_in_fragment_container, subUsersFragment);
         fragmentTransaction.commit();
     }
 
@@ -83,4 +92,5 @@ public class SubUsersActivity extends AppCompatActivity implements SubUsersCallb
     public void deleteSubuser() {
         // TODO
     }
+
 }
