@@ -3,21 +3,39 @@ package com.freelancewatermelon.factordiary.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.freelancewatermelon.factordiary.Common.Utils;
 import com.freelancewatermelon.factordiary.Interface.SubUsersCallbackInterface;
+import com.freelancewatermelon.factordiary.Model.SubUser;
 import com.freelancewatermelon.factordiary.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
+import org.w3c.dom.Comment;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +45,13 @@ public class SubUsersFragment extends Fragment {
     private FloatingActionButton fab;
     private SubUsersCallbackInterface mCallback;
 
+    private String TAG = "SubUsersFragment";
+
+    // Firebase instance variables
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference ref;
+
     public SubUsersFragment() {
         // Required empty public constructor
     }
@@ -35,8 +60,11 @@ public class SubUsersFragment extends Fragment {
         SubUsersFragment f = new SubUsersFragment();
         f.toolbar = toolbar;
         f.fab = fab;
+
         // TODO do we need to pass some args here?
         //Bundle args = new Bundle();
+
+
         return f;
     }
 
@@ -60,6 +88,11 @@ public class SubUsersFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sub_users, container, false);
 
+        //Initialize FirebaseAuth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference();
+
         // Inflate the layout for this fragment
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +113,38 @@ public class SubUsersFragment extends Fragment {
         fab.show();
 
         // TODO get subusers from Firebase RealTime database
+
+        if (mFirebaseAuth.getCurrentUser() != null) {
+            final Query subUsersQuery = ref.child(mFirebaseAuth.getCurrentUser().getUid());
+
+            subUsersQuery.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+                // TODO: implement the ChildEventListener methods as documented above
+                // ...
+            });
+        }
+
         return view;
     }
 
