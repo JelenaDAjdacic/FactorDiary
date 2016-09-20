@@ -32,8 +32,10 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import org.w3c.dom.Comment;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,6 +48,7 @@ public class SubUsersFragment extends Fragment {
     private SubUsersCallbackInterface mCallback;
 
     private String TAG = "SubUsersFragment";
+    private List<String> subUsersList = new ArrayList<>();
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -121,7 +124,9 @@ public class SubUsersFragment extends Fragment {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-
+                    Log.d(TAG, dataSnapshot.getKey());
+                    subUsersList.add(dataSnapshot.getKey());
+                    Log.d(TAG, "" + subUsersList.size());
                 }
 
                 @Override
@@ -144,6 +149,7 @@ public class SubUsersFragment extends Fragment {
                 // ...
             });
         }
+
 
         return view;
     }
