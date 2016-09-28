@@ -3,7 +3,6 @@ package com.freelancewatermelon.factordiary.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,8 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.freelancewatermelon.factordiary.Common.Utils;
 import com.freelancewatermelon.factordiary.Interface.SubUsersCallbackInterface;
@@ -27,17 +26,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.ogaclejapan.arclayout.ArcLayout;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
-import org.w3c.dom.Comment;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,14 +40,18 @@ public class SubUsersFragment extends Fragment {
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private SubUsersCallbackInterface mCallback;
-
-    private String TAG = "SubUsersFragment";
-    private List<String> subUsersList = new ArrayList<>();
+    private ArcLayout arcLayout;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase database;
     private DatabaseReference ref;
+    private Query subUsersQuery;
+    private ChildEventListener childEventListener;
+
+    private String TAG = "SubUsersFragment";
+    private List<String> subUsersList = new ArrayList<>();
 
     public SubUsersFragment() {
         // Required empty public constructor
@@ -91,10 +89,11 @@ public class SubUsersFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sub_users, container, false);
 
-        //Initialize FirebaseAuth
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        ref = database.getReference();
+        arcLayout = (ArcLayout) view.findViewById(R.id.arc_layout);
+
+//        View btn1 = View.inflate(getContext(), R.layout.btn_sub_user, arcLayout);
+
+        //View child2 = getLayoutInflater(null).inflate(R.layout.btn_sub_user, arcLayout);
 
         // Inflate the layout for this fragment
         fab.setOnClickListener(new View.OnClickListener() {
@@ -115,41 +114,45 @@ public class SubUsersFragment extends Fragment {
         fab.setImageDrawable(Utils.getMaterialIconDrawable(getActivity(), MaterialDrawableBuilder.IconValue.ACCOUNT_PLUS, R.color.colorTextWhite));
         fab.show();
 
-        // TODO get subusers from Firebase RealTime database
+        //Initialize FirebaseAuth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference();
 
-        if (mFirebaseAuth.getCurrentUser() != null) {
-            final Query subUsersQuery = ref.child(mFirebaseAuth.getCurrentUser().getUid());
-
-            subUsersQuery.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
+        childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                SubUser subUser = dataSnapshot.getValue(SubUser.class);
+                if (subUser != null) {
                     Log.d(TAG, dataSnapshot.getKey());
                     subUsersList.add(dataSnapshot.getKey());
+                    View child = getActivity().getLayoutInflater().inflate(R.layout.btn_sub_user, arcLayout, false);
+                    Button btn = (Button) child;
+                    btn.setText(subUser.getFirstName());
+                    arcLayout.addView(btn);
                     Log.d(TAG, "" + subUsersList.size());
                 }
+            }
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
 
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
 
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-                // TODO: implement the ChildEventListener methods as documented above
-                // ...
-            });
-        }
-
+            }
+            // TODO: implement the ChildEventListener methods as documented above
+            // ...
+        };
 
         return view;
     }
@@ -169,6 +172,27 @@ public class SubUsersFragment extends Fragment {
         );
 
         TextView tv = (TextView) toolbar.findViewById(R.id.tv_toolbar_txt);
-        tv.setVisibility(View.GONE);
+        tv.setText("Log out");
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCallback.signOut();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mFirebaseAuth.getCurrentUser() != null) {
+            subUsersQuery = ref.child(mFirebaseAuth.getCurrentUser().getUid());
+            subUsersQuery.addChildEventListener(childEventListener);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        subUsersQuery.removeEventListener(childEventListener);
     }
 }

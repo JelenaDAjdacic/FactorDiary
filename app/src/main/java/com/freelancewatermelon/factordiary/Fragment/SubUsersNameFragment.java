@@ -89,9 +89,9 @@ public class SubUsersNameFragment extends Fragment {
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                        // Show sub users empty fragment
-                        SubUsersEmptyFragment subUsersEmptyFragment = SubUsersEmptyFragment.newInstance(toolbar, fab);
-                        fragmentTransaction.replace(R.id.sign_in_fragment_container, subUsersEmptyFragment);
+                        // Show sub users  fragment
+                        SubUsersFragment subUsersFragment = SubUsersFragment.newInstance(toolbar, fab);
+                        fragmentTransaction.replace(R.id.sign_in_fragment_container, subUsersFragment);
                         fragmentTransaction.commit();
                     }
                 }

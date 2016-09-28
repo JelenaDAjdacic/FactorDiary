@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,22 +59,24 @@ public class AccPassFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_acc_pass, container, false);
         tv_passToggle = (TextView) view.findViewById(R.id.tv_pass_toggle_label);
+        ed_pass = (EditText) view.findViewById(R.id.et_password);
         tv_passToggle.setTag(0);
         tv_passToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO toggle pass visibility
                 if ((Integer) view.getTag() == 0) {
                     tv_passToggle.setText(R.string.pass_toggle_label_hide);
                     tv_passToggle.setTag(1);
+                    ed_pass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    ed_pass.setSelection(ed_pass.getText().length());
                 } else if ((Integer) view.getTag() == 1) {
                     tv_passToggle.setText(R.string.pass_toggle_label_show);
                     tv_passToggle.setTag(0);
+                    ed_pass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    ed_pass.setSelection(ed_pass.getText().length());
                 }
             }
         });
-
-        ed_pass = (EditText) view.findViewById(R.id.et_password);
 
         args = getArguments();
         name = args.getString("name");

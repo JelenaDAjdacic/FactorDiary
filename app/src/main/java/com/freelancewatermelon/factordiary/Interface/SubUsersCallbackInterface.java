@@ -6,4 +6,5 @@ package com.freelancewatermelon.factordiary.Interface;
 public interface SubUsersCallbackInterface {
     void addSubUser(String name, String last_name);
     void deleteSubuser();
+    void signOut();
 }
