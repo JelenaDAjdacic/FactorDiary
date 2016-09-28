@@ -7,5 +7,4 @@
     android:gravity="center"
     android:text="Bcd"
     android:textColor="#FFFFFF"
-    app:arc_origin="center">
-</Button>
+    app:arc_origin="center" />

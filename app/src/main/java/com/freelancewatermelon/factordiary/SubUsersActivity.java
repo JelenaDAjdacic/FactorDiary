@@ -48,7 +48,6 @@ public class SubUsersActivity extends AppCompatActivity implements SubUsersCallb
         //Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true); // enable offline capabilities
         ref = database.getReference();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)

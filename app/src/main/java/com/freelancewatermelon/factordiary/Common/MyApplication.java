@@ -2,6 +2,8 @@ package com.freelancewatermelon.factordiary.Common;
 
 import android.app.Application;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * Created by 1 on 3/8/2016.
  */
@@ -21,6 +23,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        /* Enable disk persistence  */
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true); // enable offline capabilities
     }
 
     public MyPreferenceManager getPrefManager() {

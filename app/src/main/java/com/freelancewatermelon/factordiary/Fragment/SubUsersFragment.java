@@ -184,6 +184,8 @@ public class SubUsersFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        // Clear arc layout
+        arcLayout.removeAllViews();
         if (mFirebaseAuth.getCurrentUser() != null) {
             subUsersQuery = ref.child(mFirebaseAuth.getCurrentUser().getUid());
             subUsersQuery.addChildEventListener(childEventListener);
