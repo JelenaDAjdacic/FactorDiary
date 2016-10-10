@@ -87,6 +87,7 @@ public class SubUsersActivity extends AppCompatActivity implements SubUsersCallb
         //Adding values
         subUser.setFirstName(name);
         subUser.setLastName(last_name);
+        subUser.setActive(false);
 
         if (mFirebaseAuth.getCurrentUser() != null) {
             ref.child(mFirebaseAuth.getCurrentUser().getUid()).child(name + " " + last_name).setValue(subUser);

@@ -4,6 +4,7 @@ public class SubUser {
     //name and address string
     private String firstName;
     private String lastName;
+    private boolean active;
 
     public SubUser() {
       /*Blank default constructor essential for Firebase*/
@@ -24,5 +25,13 @@ public class SubUser {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

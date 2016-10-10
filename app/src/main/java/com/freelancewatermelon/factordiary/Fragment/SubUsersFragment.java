@@ -2,6 +2,7 @@ package com.freelancewatermelon.factordiary.Fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.freelancewatermelon.factordiary.Common.Utils;
 import com.freelancewatermelon.factordiary.Interface.SubUsersCallbackInterface;
+import com.freelancewatermelon.factordiary.MainActivity;
 import com.freelancewatermelon.factordiary.Model.SubUser;
 import com.freelancewatermelon.factordiary.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,7 +66,6 @@ public class SubUsersFragment extends Fragment {
 
         // TODO do we need to pass some args here?
         //Bundle args = new Bundle();
-
 
         return f;
     }
@@ -122,13 +123,25 @@ public class SubUsersFragment extends Fragment {
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                SubUser subUser = dataSnapshot.getValue(SubUser.class);
+                final SubUser subUser = dataSnapshot.getValue(SubUser.class);
                 if (subUser != null) {
                     Log.d(TAG, dataSnapshot.getKey());
                     subUsersList.add(dataSnapshot.getKey());
                     View child = getActivity().getLayoutInflater().inflate(R.layout.btn_sub_user, arcLayout, false);
-                    Button btn = (Button) child;
+                    final Button btn = (Button) child;
                     btn.setText(subUser.getFirstName());
+                    btn.setOnClickListener(new View.OnClickListener() {
+                                               @Override
+                                               public void onClick(View view) {
+                                                   Log.d(TAG, "CLICKED" + btn.getText().toString());
+                                                   if (mFirebaseAuth.getCurrentUser() != null) {
+                                                       ref.child(mFirebaseAuth.getCurrentUser().getUid()).child(subUser.getFirstName() + " " + subUser.getLastName()).child("active").setValue(true);
+                                                   }
+                                                   Intent intent = new Intent(getContext(), MainActivity.class);
+                                                   startActivity(intent);
+                                               }
+                                           }
+                    );
                     arcLayout.addView(btn);
                     Log.d(TAG, "" + subUsersList.size());
                 }
