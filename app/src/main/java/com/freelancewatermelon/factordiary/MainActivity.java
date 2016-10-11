@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference ref;
 
     private String mUsername = " ";
+    private ChildEventListener childEventListener;
     private String TAG = "MainActivity";
     private Query subUsersQuery;
 
@@ -54,24 +55,42 @@ public class MainActivity extends AppCompatActivity {
             database = FirebaseDatabase.getInstance();
             ref = database.getReference();
             subUsersQuery = ref.child(mFirebaseAuth.getCurrentUser().getUid());
-            subUsersQuery.orderByChild("active").equalTo(false).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            childEventListener = new ChildEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Log.d(TAG, dataSnapshot.getKey());
                     final SubUser subUser = dataSnapshot.getValue(SubUser.class);
                     if (subUser != null) {
                         Log.d(TAG, subUser.toString());
+                    } else {
+                        startActivity(new Intent(getApplicationContext(), SubUsersActivity.class));
+                        finish();
                     }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
-            });
-            startActivity(new Intent(this, SubUsersActivity.class));
-            finish();
-            return;
+            };
+            subUsersQuery.orderByChild("active").equalTo(false).addChildEventListener(childEventListener);
+
         }
 
 
