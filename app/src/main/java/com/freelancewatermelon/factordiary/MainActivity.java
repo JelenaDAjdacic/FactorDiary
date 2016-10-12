@@ -1,5 +1,6 @@
 package com.freelancewatermelon.factordiary;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.freelancewatermelon.factordiary.Dialogs.CustomProgressDialog;
 import com.freelancewatermelon.factordiary.Model.SubUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ChildEventListener childEventListener;
     private String TAG = "MainActivity";
     private Query subUsersQuery;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
             // Not signed in, launch the Sign In activity
             startActivity(new Intent(this, SignInActivity.class));
             finish();
-            return;
         } else {
+            progressDialog = CustomProgressDialog.newInstance(this);
             mUsername = mFirebaseUser.getDisplayName();
             if (mFirebaseUser.getEmail() != null) {
                 Toast.makeText(this, mFirebaseUser.getEmail(), Toast.LENGTH_LONG).show();
@@ -63,14 +66,16 @@ public class MainActivity extends AppCompatActivity {
                     final SubUser subUser = dataSnapshot.getValue(SubUser.class);
                     if (subUser != null) {
                         Log.d(TAG, subUser.toString());
-                    } else {
-                        startActivity(new Intent(getApplicationContext(), SubUsersActivity.class));
-                        finish();
                     }
                 }
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    if (!dataSnapshot.exists()) {
+                        startActivity(new Intent(getApplicationContext(), SubUsersActivity.class));
+                        progressDialog.hide();
+                        finish();
+                    }
 
                 }
 
@@ -89,7 +94,21 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             };
-            subUsersQuery.orderByChild("active").equalTo(false).addChildEventListener(childEventListener);
+            // subUsersQuery.orderByChild("active").equalTo(false).addChildEventListener(childEventListener);
+            subUsersQuery.orderByChild("active").equalTo(false).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (!dataSnapshot.exists()) {
+                        startActivity(new Intent(getApplicationContext(), SubUsersActivity.class));
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
 
         }
 
