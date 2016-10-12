@@ -2,12 +2,9 @@ package com.freelancewatermelon.factordiary;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.freelancewatermelon.factordiary.Dialogs.CustomProgressDialog;
@@ -95,13 +92,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
             // subUsersQuery.orderByChild("active").equalTo(false).addChildEventListener(childEventListener);
-            subUsersQuery.orderByChild("active").equalTo(false).addListenerForSingleValueEvent(new ValueEventListener() {
+            subUsersQuery.orderByChild("active").equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (!dataSnapshot.exists()) {
                         startActivity(new Intent(getApplicationContext(), SubUsersActivity.class));
-                        finish();
+
+                    } else {
+                        startActivity(new Intent(getApplicationContext(), SubUserAccountActivity.class));
                     }
+                    finish();
                 }
 
                 @Override

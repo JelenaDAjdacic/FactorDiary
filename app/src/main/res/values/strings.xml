@@ -30,4 +30,8 @@
     <string name="create_sub_user_description">Choose a diary to edit, or create a new one.</string>
     <string name="forgot_pass_title">Forgot your password?</string>
     <string name="forgot_pass_desc">Enter your email to find your account.</string>
+
+    <string name="title_activity_sub_user_account">SubUserAccountActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

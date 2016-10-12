@@ -18,9 +18,9 @@ import android.widget.TextView;
 
 import com.freelancewatermelon.factordiary.Common.Utils;
 import com.freelancewatermelon.factordiary.Interface.SubUsersCallbackInterface;
-import com.freelancewatermelon.factordiary.MainActivity;
 import com.freelancewatermelon.factordiary.Model.SubUser;
 import com.freelancewatermelon.factordiary.R;
+import com.freelancewatermelon.factordiary.SubUserAccountActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -137,7 +137,7 @@ public class SubUsersFragment extends Fragment {
                                                    if (mFirebaseAuth.getCurrentUser() != null) {
                                                        ref.child(mFirebaseAuth.getCurrentUser().getUid()).child(subUser.getFirstName() + " " + subUser.getLastName()).child("active").setValue(true);
                                                    }
-                                                   Intent intent = new Intent(getContext(), MainActivity.class);
+                                                   Intent intent = new Intent(getContext(), SubUserAccountActivity.class);
                                                    startActivity(intent);
                                                }
                                            }

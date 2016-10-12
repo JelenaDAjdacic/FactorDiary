@@ -23,6 +23,11 @@
         <activity
             android:name=".SubUsersActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".SubUserAccountActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_sub_user_account"
+            android:theme="@style/FullscreenTheme"/>
     </application>
 
 </manifest>

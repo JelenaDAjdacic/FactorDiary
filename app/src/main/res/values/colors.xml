@@ -16,4 +16,6 @@
     <color name="light_green_500">#8BC34A</color>
 
     <color name="pressed">#33000000</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>
