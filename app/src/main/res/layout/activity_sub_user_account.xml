@@ -36,13 +36,13 @@
                 app:ntb_badge_gravity="bottom"
                 app:ntb_badge_position="left"
                 app:ntb_badge_title_color="#ffffffff"
-                app:ntb_badge_use_typeface="true"
                 app:ntb_badged="true"
                 app:ntb_bg_color="@color/colorBackground"
                 app:ntb_scaled="false"
                 app:ntb_title_mode="active"
                 app:ntb_title_size="@dimen/text_size_normal"
-                app:ntb_titled="true" />
+                app:ntb_titled="true"
+                app:ntb_inactive_color="@color/colorBackgroundTint" />
 
         </FrameLayout>
 
