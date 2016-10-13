@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#423752"
+    android:background="@color/colorBackground"
     android:orientation="vertical">
 
 
@@ -17,7 +17,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000">
+        android:background="@color/colorBackground">
         <include
             layout="@layout/toolbar"
             android:layout_width="match_parent"
@@ -38,10 +38,10 @@
                 app:ntb_badge_title_color="#ffffffff"
                 app:ntb_badge_use_typeface="true"
                 app:ntb_badged="true"
-                app:ntb_bg_color="#605271"
+                app:ntb_bg_color="@color/colorBackground"
                 app:ntb_scaled="false"
                 app:ntb_title_mode="active"
-                app:ntb_title_size="15sp"
+                app:ntb_title_size="@dimen/text_size_normal"
                 app:ntb_titled="true" />
 
         </FrameLayout>

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -198,6 +199,9 @@ public class SubUsersFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // Clear arc layout
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
         arcLayout.removeAllViews();
         if (mFirebaseAuth.getCurrentUser() != null) {
             subUsersQuery = ref.child(mFirebaseAuth.getCurrentUser().getUid());

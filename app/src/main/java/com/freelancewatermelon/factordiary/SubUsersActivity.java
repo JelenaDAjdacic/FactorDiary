@@ -30,11 +30,8 @@ public class SubUsersActivity extends AppCompatActivity implements SubUsersCallb
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseDatabase database;
     private DatabaseReference ref;
 
-    private String mUsername;
     private GoogleApiClient mGoogleApiClient;
 
     @Override
@@ -47,7 +44,7 @@ public class SubUsersActivity extends AppCompatActivity implements SubUsersCallb
         setSupportActionBar(toolbar);
         //Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         ref = database.getReference();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)

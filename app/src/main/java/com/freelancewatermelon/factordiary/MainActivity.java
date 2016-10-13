@@ -42,12 +42,14 @@ public class MainActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        progressDialog = CustomProgressDialog.newInstance(this);
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
             startActivity(new Intent(this, SignInActivity.class));
             finish();
         } else {
-            progressDialog = CustomProgressDialog.newInstance(this);
+
+            progressDialog.show();
             mUsername = mFirebaseUser.getDisplayName();
             if (mFirebaseUser.getEmail() != null) {
                 Toast.makeText(this, mFirebaseUser.getEmail(), Toast.LENGTH_LONG).show();

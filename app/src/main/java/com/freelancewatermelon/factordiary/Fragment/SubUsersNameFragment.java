@@ -66,6 +66,7 @@ public class SubUsersNameFragment extends Fragment {
                 args.putString("last_name", last_name);
                 args.putBoolean("active", false);
                 mCallback.addSubUser(name, last_name);
+
             }
         });
 

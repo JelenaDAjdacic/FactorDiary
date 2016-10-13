@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_sign_in_vertical_margin_btn">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="text_size_normal">16sp</dimen>
 </resources>

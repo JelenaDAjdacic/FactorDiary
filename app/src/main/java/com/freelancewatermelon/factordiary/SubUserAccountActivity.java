@@ -51,10 +51,12 @@ public class SubUserAccountActivity extends AppCompatActivity implements SubUser
         setContentView(R.layout.activity_sub_user_account);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         //Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         ref = database.getReference();
+
         mCallback = (SubUsersCallbackInterface) this;
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -94,7 +96,7 @@ public class SubUserAccountActivity extends AppCompatActivity implements SubUser
         viewPager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
-                return 5;
+                return 3;
             }
 
             @Override
@@ -125,47 +127,33 @@ public class SubUserAccountActivity extends AppCompatActivity implements SubUser
             }
         });
 
-        final String[] colors = getResources().getStringArray(R.array.default_preview);
 
         final NavigationTabBar navigationTabBar = (NavigationTabBar) findViewById(R.id.ntb_horizontal);
         final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
         models.add(
                 new NavigationTabBar.Model.Builder(
-                        ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.ic_menu_my_calendar),
-                        Color.parseColor(colors[0]))
-                        .title("Heart")
+                        ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_history_white_18dp),
+                        ContextCompat.getColor(this, R.color.colorBackground))
+                        .title(getString(R.string.tab_history))
                         .build()
         );
         models.add(
                 new NavigationTabBar.Model.Builder(
-                        ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.ic_menu_my_calendar),
-                        Color.parseColor(colors[1]))
-                        .title("Cup")
+                        ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_today_white_18dp),
+                        ContextCompat.getColor(this, R.color.colorBackground))
+                        .title(getString(R.string.tab_calendar))
                         .build()
         );
         models.add(
                 new NavigationTabBar.Model.Builder(
-                        ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.ic_menu_my_calendar),
-                        Color.parseColor(colors[2]))
-                        .title("Diploma")
+                        ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_notifications_white_18dp),
+                        ContextCompat.getColor(this, R.color.colorBackground))
+                        .title(getString(R.string.tab_reminder))
                         .build()
         );
-        models.add(
-                new NavigationTabBar.Model.Builder(
-                        ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.ic_menu_my_calendar),
-                        Color.parseColor(colors[3]))
-                        .title("Flag")
-                        .build()
-        );
-        models.add(
-                new NavigationTabBar.Model.Builder(
-                        ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.ic_menu_my_calendar),
-                        Color.parseColor(colors[4]))
-                        .title("Medal")
-                        .build()
-        );
+
         navigationTabBar.setModels(models);
-        navigationTabBar.setViewPager(viewPager, 2);
+        navigationTabBar.setViewPager(viewPager, 0);
 
         navigationTabBar.post(new Runnable() {
             @Override
@@ -252,11 +240,11 @@ public class SubUserAccountActivity extends AppCompatActivity implements SubUser
             return 20;
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
-            public TextView txt;
+            TextView txt;
 
-            public ViewHolder(final View itemView) {
+            ViewHolder(final View itemView) {
                 super(itemView);
                 txt = (TextView) itemView.findViewById(R.id.txt_vp_item_list);
             }
