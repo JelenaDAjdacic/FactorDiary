@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference ref;
 
     private String mUsername = " ";
-    private ChildEventListener childEventListener;
     private String TAG = "MainActivity";
     private Query subUsersQuery;
     private ProgressDialog progressDialog;
@@ -58,41 +57,7 @@ public class MainActivity extends AppCompatActivity {
             ref = database.getReference();
             subUsersQuery = ref.child(mFirebaseAuth.getCurrentUser().getUid());
 
-            childEventListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Log.d(TAG, dataSnapshot.getKey());
-                    final SubUser subUser = dataSnapshot.getValue(SubUser.class);
-                    if (subUser != null) {
-                        Log.d(TAG, subUser.toString());
-                    }
-                }
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    if (!dataSnapshot.exists()) {
-                        startActivity(new Intent(getApplicationContext(), SubUsersActivity.class));
-                        progressDialog.hide();
-                        finish();
-                    }
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            };
             // subUsersQuery.orderByChild("active").equalTo(false).addChildEventListener(childEventListener);
             subUsersQuery.orderByChild("active").equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

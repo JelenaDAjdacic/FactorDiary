@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.ogaclejapan.arclayout.ArcLayout;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
@@ -51,6 +52,7 @@ public class SubUsersFragment extends Fragment {
     private FirebaseDatabase database;
     private DatabaseReference ref;
     private Query subUsersQuery;
+    private Query previousLoggedUserQuery;
     private ChildEventListener childEventListener;
 
     private String TAG = "SubUsersFragment";
@@ -126,9 +128,14 @@ public class SubUsersFragment extends Fragment {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 final SubUser subUser = dataSnapshot.getValue(SubUser.class);
                 if (subUser != null) {
+                    View child;
                     Log.d(TAG, dataSnapshot.getKey());
                     subUsersList.add(dataSnapshot.getKey());
-                    View child = getActivity().getLayoutInflater().inflate(R.layout.btn_sub_user, arcLayout, false);
+                    if (subUser.getActive()) {
+                        child = getActivity().getLayoutInflater().inflate(R.layout.btn_logged_sub_user, arcLayout, false);
+                    } else {
+                        child = getActivity().getLayoutInflater().inflate(R.layout.btn_sub_user, arcLayout, false);
+                    }
                     final Button btn = (Button) child;
                     btn.setText(subUser.getFirstName());
                     btn.setOnClickListener(new View.OnClickListener() {
@@ -136,10 +143,58 @@ public class SubUsersFragment extends Fragment {
                                                public void onClick(View view) {
                                                    Log.d(TAG, "CLICKED" + btn.getText().toString());
                                                    if (mFirebaseAuth.getCurrentUser() != null) {
-                                                       ref.child(mFirebaseAuth.getCurrentUser().getUid()).child(subUser.getFirstName() + " " + subUser.getLastName()).child("active").setValue(true);
+
+                                                       ref.child(mFirebaseAuth.getCurrentUser().getUid()).orderByChild("active").equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                           @Override
+                                                           public void onDataChange(DataSnapshot dataSnapshot) {
+                                                               if (dataSnapshot != null) {
+                                                                   ref.child(mFirebaseAuth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+                                                                       @Override
+                                                                       public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                                                           final SubUser loggedSubUser = dataSnapshot.getValue(SubUser.class);
+                                                                           ref.child(mFirebaseAuth.getCurrentUser().getUid()).child(loggedSubUser.getFirstName() + " " + loggedSubUser.getLastName()).child("active").setValue(false);
+                                                                           ref.child(mFirebaseAuth.getCurrentUser().getUid()).child(subUser.getFirstName() + " " + subUser.getLastName()).child("active").setValue(true);
+
+
+                                                                       }
+
+                                                                       @Override
+                                                                       public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                                                       }
+
+                                                                       @Override
+                                                                       public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                                                       }
+
+                                                                       @Override
+                                                                       public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                                                       }
+
+                                                                       @Override
+                                                                       public void onCancelled(DatabaseError databaseError) {
+
+                                                                       }
+                                                                   });
+
+                                                               } else {
+                                                                   ref.child(mFirebaseAuth.getCurrentUser().getUid()).child(subUser.getFirstName() + " " + subUser.getLastName()).child("active").setValue(true);
+
+                                                               }
+                                                           }
+
+                                                           @Override
+                                                           public void onCancelled(DatabaseError databaseError) {
+
+                                                           }
+                                                       });
+
                                                    }
                                                    Intent intent = new Intent(getContext(), SubUserAccountActivity.class);
                                                    startActivity(intent);
+                                                   getActivity().finish();
                                                }
                                            }
                     );
@@ -203,6 +258,7 @@ public class SubUsersFragment extends Fragment {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
         arcLayout.removeAllViews();
+        getFragmentManager().popBackStack();
         if (mFirebaseAuth.getCurrentUser() != null) {
             subUsersQuery = ref.child(mFirebaseAuth.getCurrentUser().getUid());
             subUsersQuery.addChildEventListener(childEventListener);
@@ -212,6 +268,7 @@ public class SubUsersFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        getFragmentManager().popBackStack();
         subUsersQuery.removeEventListener(childEventListener);
     }
 }

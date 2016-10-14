@@ -111,4 +111,10 @@ public class SubUsersActivity extends AppCompatActivity implements SubUsersCallb
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // TODO User sign out connection fail
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
